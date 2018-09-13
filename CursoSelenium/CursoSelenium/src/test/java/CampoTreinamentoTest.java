@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -21,8 +22,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class CampoTreinamentoTest {
     
     @Test
+//    @Ignore
     public void testeTextField(){
-        System.setProperty("webdriver.gecko.driver", "../geckodriver");
+        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver");
         WebDriver driver = new FirefoxDriver();
         driver.manage().window().setPosition(new Point(2000, 0));
         driver.manage().window().maximize();
@@ -35,6 +37,7 @@ public class CampoTreinamentoTest {
         driver.quit();
     }
     @Test
+    @Ignore
     public void testeTextArea(){
         System.setProperty("webdriver.gecko.driver", "../geckodriver");
         WebDriver driver = new FirefoxDriver();
@@ -50,6 +53,7 @@ public class CampoTreinamentoTest {
     }
     
     @Test
+    @Ignore
     public void testeRadioButton(){
         System.setProperty("webdriver.gecko.driver", "../geckodriver");
         WebDriver driver = new FirefoxDriver();

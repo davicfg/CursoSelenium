@@ -14,20 +14,25 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  *
  * @author davi
  */
-public class JanelaGenerica {
-    public static void main(String[] args) {
-        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver");
+public class JanelaGenerica{
+     public static void main(String[] args) {
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/recursos/geckodriver_mac");
+        } else if (System.getProperty("os.name").equals("Linux")) {
+            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") + "/src/main/recursos/geckodriver_linux");
+        }
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("marionette", true);
         WebDriver driver = new FirefoxDriver(capabilities);
-        
-        driver.get("file:///"+System.getProperty("user.dir")+"/src/main/recursos/componentes.html");
+        driver.get("file:///" + System.getProperty("user.dir") + "/src/main/recursos/componentes.html");
         driver.findElement(By.id("buttonPopUpHard")).click();
-        driver.switchTo().window("Popup");
-        driver.findElement(By.tagName("textarea")).sendKeys("DAVI CARVALHO");
-        driver.close();
-        driver.switchTo().window("");
-        
-        driver.findElement(By.tagName("textarea")).sendKeys("DAVI CARVALHO");
+        driver.switchTo().window((String) driver.getWindowHandles().toArray()[1]);
+        driver.findElement(By.tagName("textarea")).sendKeys("Janela pop up\n");
+        ;
+        driver.switchTo().window((String) driver.getWindowHandles().toArray()[1]);
+        driver.findElement(By.tagName("textarea")).sendKeys("janela principal");
+        driver.switchTo().window((String) driver.getWindowHandles().toArray()[0]);
+        driver.findElement(By.tagName("textarea")).sendKeys("Janela  ");
+        driver.quit();
     }
 }

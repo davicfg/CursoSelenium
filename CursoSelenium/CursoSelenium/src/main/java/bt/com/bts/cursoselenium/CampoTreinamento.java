@@ -20,61 +20,54 @@ import org.openqa.selenium.support.ui.Select;
  */
 public class CampoTreinamento {
     public static void main(String[] args) {
-        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver");
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver_mac");
+        } else if (System.getProperty("os.name").equals("Linux")) {
+             System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver_linux");
+        }
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("marionette", true);
         WebDriver driver = new FirefoxDriver(capabilities);
         driver.manage().window().maximize();  
         
+        DSL dsl = new DSL(driver);
+        
         //CAMPO IMPUT
         driver.get("file:///"+System.getProperty("user.dir")+"/src/main/recursos/componentes.html");
         System.out.println(driver.getTitle()); 
-        WebElement input = driver.findElement(By.id("elementosForm:nome"));
-        input.sendKeys("Davi");
+        dsl.escrever("elementosForm:nome", "Davi");
         System.err.println("INPUT");
-        System.err.println("Davi".equals(input.getAttribute("value")));
+        System.err.println("Davi".equals(dsl.obterValorCampo("elementosForm:nome")));
         
         //TEXT AREA
         driver.get("file:///"+System.getProperty("user.dir")+"/src/main/recursos/componentes.html");
         System.out.println(driver.getTitle()); 
-        WebElement caixaTexto = driver.findElement(By.id("elementosForm:sugestoes"));
-        caixaTexto.sendKeys("Fazer cussos.");
+        dsl.escrever("elementosForm:sugestoes","Fazer cussos.");
         System.err.println("TEXT AREA");
-        System.err.println("Fazer cussos.".equals(caixaTexto.getAttribute("value")));
+        System.err.println("Fazer cussos.".equals(dsl.obterValorCampo("elementosForm:sugestoes")));
         
         //RADIO
         driver.get("file:///"+System.getProperty("user.dir")+"/src/main/recursos/componentes.html");
         System.out.println(driver.getTitle()); 
-        WebElement rButton = driver.findElement(By.id("elementosForm:sexo:0"));
-        rButton.click();
+        dsl.clicarRadio("elementosForm:sexo:0");
+        
         System.err.println("RADIO");
-        System.err.println(rButton.isSelected());
+        System.err.println(dsl.isRadioMarcado("elementosForm:sexo:0"));
         
         //SELECT
         driver.get("file:///"+System.getProperty("user.dir")+"/src/main/recursos/componentes.html");
-        System.out.println(driver.getTitle()); 
-        WebElement element = driver.findElement(By.id("elementosForm:escolaridade"));
-        Select select = new Select(element);
-//        select.selectByIndex(2);
-//        select.selectByValue("2grauincomp");
-        select.selectByVisibleText("2o grau completo");
+        dsl.selecionarCombo("elementosForm:escolaridade", "2o grau completo");
         System.err.println("SELECT");
-        System.err.println(select.getOptions().get(0).getAttribute("value"));
-        
-        List<WebElement> opcoes = select.getOptions();
-        for (WebElement opcao : opcoes) {
-            System.err.println(opcao.getText());
-        }
+        System.err.println(dsl.obterValorCombo("elementosForm:escolaridade"));
         
         //COMBO MULTI
         driver.get("file:///"+System.getProperty("user.dir")+"/src/main/recursos/componentes.html");
         System.out.println(driver.getTitle()); 
+        dsl.selecionarCombo("elementosForm:esportes", "Corrida");
+        dsl.selecionarCombo("elementosForm:esportes", "Natacao");
+        
         WebElement esporte = driver.findElement(By.id("elementosForm:esportes"));
         Select selectCombo = new Select(esporte);
-//        select.selectByIndex(2);
-//        select.selectByValue("2grauincomp");
-        selectCombo.selectByVisibleText("Corrida");
-        selectCombo.selectByVisibleText("Natacao");
         System.err.println("SELECT COMBO");
         System.err.println(selectCombo.getOptions().get(0).getAttribute("value"));
         

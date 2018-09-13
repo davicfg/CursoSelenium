@@ -16,7 +16,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  */
 public class Janelas {
     public static void main(String[] args) {
-        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver");
+        if (System.getProperty("os.name").equals("Mac OS X")) {
+            System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver_mac");
+        } else if (System.getProperty("os.name").equals("Linux")) {
+             System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"/src/main/recursos/geckodriver_linux");
+        }
         DesiredCapabilities capabilities = DesiredCapabilities.firefox();
         capabilities.setCapability("marionette", true);
         WebDriver driver = new FirefoxDriver(capabilities);
