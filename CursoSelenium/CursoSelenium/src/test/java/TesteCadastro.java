@@ -1,6 +1,5 @@
 
 import bt.com.bts.cursoselenium.CampoTreinamentoPage;
-import bt.com.bts.cursoselenium.DSL;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
