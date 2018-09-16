@@ -45,7 +45,7 @@ public class DSL {
      * ******* Radio e Check ***********
      */
     public void clicarRadio(String id_campo) {
-        driver.findElement(By.id(id_campo));
+        driver.findElement(By.id(id_campo)).click();
     }
 
     public boolean isRadioMarcado(String id_campo) {
@@ -96,7 +96,7 @@ public class DSL {
      * ******* Botao ***********
      */
     public void clicarBotao(String id_btn) {
-        driver.findElement(By.id(id_btn));
+        driver.findElement(By.id(id_btn)).click();
     }
 
     public String obterValorElemento(String id_campo) {
